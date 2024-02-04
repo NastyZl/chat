@@ -37,12 +37,34 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>9.4.30.v20200611</version>
-                <!-- Можно добавлять свои настройки, например, scanIntervalSeconds и т.д. -->
             </plugin>
-
-            <!-- Необходимо подключить maven-checkstyle-plugin -->
-            <!-- И настроить его так, чтобы сборка проекта падала при обнаружении ошибок !!! -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <violationSeverity>warning</violationSeverity>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <!-- https://jarcasting.com/artifacts/com.puppycrawl.tools/checkstyle/ -->
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.9.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
-
 </project>

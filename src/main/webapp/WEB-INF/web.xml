@@ -5,15 +5,12 @@
          http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
 
-    <servlet>
-        <servlet-name>WebApp</servlet-name>
-        <servlet-class>org.example.WebApp</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WebApp</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <!-- Необходимо подключить LoginFilter и SessionListener -->
-
+<!--    <servlet>-->
+<!--        <servlet-name>WebApp</servlet-name>-->
+<!--        <servlet-class>org.example.WebApp</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>WebApp</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
 </web-app>

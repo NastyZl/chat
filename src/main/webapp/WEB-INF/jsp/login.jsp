@@ -23,8 +23,7 @@
                         <td><input id="passwordInput" type="password" name="passwordInput" value=""/></td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td><button type="submit">Войти</button></td>
+                         <td><button  type="submit">Войти</button></td>
                     </tr>
                 </table>
                 <h4>${errorLoginMessage}</h4>
