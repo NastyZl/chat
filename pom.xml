@@ -46,6 +46,8 @@
                     <logViolationsToConsole>true</logViolationsToConsole>
                     <configLocation>checkstyle.xml</configLocation>
                     <violationSeverity>warning</violationSeverity>
+                    <failsOnError>true</failsOnError>
+                    <consoleOutput>true</consoleOutput>
                 </configuration>
                 <executions>
                     <execution>
