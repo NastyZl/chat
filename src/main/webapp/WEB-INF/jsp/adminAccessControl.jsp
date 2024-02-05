@@ -20,7 +20,7 @@
                         <th>name</th>
                         <th>userType</th>
                         <th>status</th>
-                        <th>edit access</th>
+                        <th>access</th>
                     </tr>
                 </thread>
                 <c:forEach items="${users}" var="user">
@@ -41,14 +41,14 @@
                         </c:choose>
                         <c:choose>
                             <c:when test="${user.isPermissionToSendMessage()==true}">
-                                <td> <button class="button" type="submit" onclick="checkPermission('${user.login}','${user.isPermissionToSendMessage()}')" id="permission">on</button></td>
-                                <br />
+                                  <td><input type="checkbox" onchange="checkPermission1('${user.login}')" id="box" checked /><td>
+                                  <br />
                             </c:when>
                             <c:otherwise>
-                                <td> <button class="button" type="submit" onclick="checkPermission('${user.login}', '${user.isPermissionToSendMessage()}')" id="permission">off</button></td>
-                                <br />
-                            </c:otherwise>
-                        </c:choose>
+                                  <td><input type="checkbox" onchange="checkPermission1('${user.login}')" id="box" /><td>
+                                   <br />
+                           </c:otherwise>
+                             </c:choose>
                     </tr>
                 </c:forEach>
             </table>

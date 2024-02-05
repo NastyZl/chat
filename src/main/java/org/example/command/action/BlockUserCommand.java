@@ -22,10 +22,10 @@ public class BlockUserCommand implements Command {
                 request.getServletContext().getAttribute("memoryUserRepo");
 
         String login = request.getParameter("loginInput");
-        String permission = request.getParameter("permission");
+
         Optional<User> user = memoryUserRepo.get().findByLogin(login);
         if (user.isPresent()) {
-            if (permission.equals("true")) {
+            if (user.get().isPermissionToSendMessage()) {
                 user.get().setPermissionToSendMessage(false);
                 memoryUserRepo.get().findByLogin(login).get().setPermissionToSendMessage(false);
             } else {
