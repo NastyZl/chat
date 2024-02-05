@@ -2,6 +2,7 @@ package org.example.filter;
 
 import org.example.data.MemoryUserRepo;
 import org.example.data.User;
+import org.example.data.UserType;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.example.Resources.PAGE_CHAT;
 import static org.example.Resources.PAGE_LOGIN;
 
 @WebFilter("/*")
@@ -32,16 +34,20 @@ public class LoginFilter implements Filter {
         HttpSession session = req.getSession();
 
         User userSession = (User) session.getAttribute("user");
-        String login = req.getParameter("loginInput");
-
-        @SuppressWarnings("unchecked") final AtomicReference<MemoryUserRepo> memoryUserRepo = (AtomicReference<MemoryUserRepo>)
-                request.getServletContext().getAttribute("memoryUserRepo");
-        Optional<User> user = memoryUserRepo.get().findByLogin(login);
-
-        if (userSession == null && user.isEmpty()) {
-            req.getRequestDispatcher(PAGE_LOGIN).forward(request, response);
-
+        String uri = req.getQueryString();
+        if (uri.contains("login")) {
+            filterChain.doFilter(request, response);
         }
+
+        System.out.println(uri);
+        if (userSession == null) {
+            req.getRequestDispatcher(PAGE_LOGIN).forward(request, response);
+        }
+
+        if (userSession.getUserType() != UserType.ADMIN && uri.contains("show_admin_page")) {
+            req.getRequestDispatcher(PAGE_CHAT).forward(request, response);
+        }
+
         filterChain.doFilter(request, response);
     }
 
