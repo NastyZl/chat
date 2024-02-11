@@ -14,16 +14,17 @@ import java.util.List;
 import static org.example.Resources.PAGE_CHAT;
 
 public class ShowChatPageCommand implements Command {
-    List<Message> messages = new ArrayList<>();
+    final List<Message> messages = new ArrayList<>();
 
     @Override
     public Result execute(HttpServletRequest request, HttpServletResponse response) {
-
-        String message = request.getParameter("message");
-        if (message != null && !message.isEmpty()) {
-            User user = (User) request.getSession().getAttribute("user");
-            if (user.isPermissionToSendMessage()) {
-                messages.add(new Message(user, message));
+        synchronized (messages) {
+            String message = request.getParameter("message");
+            if (message != null && !message.isEmpty()) {
+                User user = (User) request.getSession().getAttribute("user");
+                if (user.isPermissionToSendMessage()) {
+                    messages.add(new Message(user, message));
+                }
             }
         }
         request.setAttribute("messages", messages);

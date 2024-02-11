@@ -10,28 +10,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.example.Resources.COMMAND_SHOW_ADMIN_PAGE;
 
 public class BlockUserCommand implements Command {
+
+    private final MemoryUserRepo memoryUserRepo = new MemoryUserRepo();
+
     @Override
     public Result execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        @SuppressWarnings("unchecked") final AtomicReference<MemoryUserRepo> memoryUserRepo = (AtomicReference<MemoryUserRepo>)
-                request.getServletContext().getAttribute("memoryUserRepo");
-
+        String permission = request.getParameter("permission");
         String login = request.getParameter("loginInput");
-
-        Optional<User> user = memoryUserRepo.get().findByLogin(login);
+        Optional<User> user = memoryUserRepo.findByLogin(login);
         if (user.isPresent()) {
-            if (user.get().isPermissionToSendMessage()) {
-                user.get().setPermissionToSendMessage(false);
-                memoryUserRepo.get().findByLogin(login).get().setPermissionToSendMessage(false);
-            } else {
-                user.get().setPermissionToSendMessage(true);
-                memoryUserRepo.get().findByLogin(login).get().setPermissionToSendMessage(true);
-            }
+            user.get().setPermissionToSendMessage(!Objects.equals(permission, "on"));
         }
         return new RedirectResult(COMMAND_SHOW_ADMIN_PAGE);
     }

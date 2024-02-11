@@ -8,19 +8,19 @@ import org.example.result.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static org.example.Resources.PAGE_LOGIN;
 
 public class LogoutCommand implements Command {
+    private final MemoryUserRepo memoryUserRepo = new MemoryUserRepo();
 
     @Override
     public Result execute(HttpServletRequest request, HttpServletResponse response) {
-        @SuppressWarnings("unchecked") final AtomicReference<MemoryUserRepo> memoryUserRepo = (AtomicReference<MemoryUserRepo>)
-                request.getServletContext().getAttribute("memoryUserRepo");
+
         User user = (User) request.getSession().getAttribute("user");
+
         if (user != null) {
-            memoryUserRepo.get().findByLogin(user.getLogin()).get().setOnline(false);
+            memoryUserRepo.findByLogin(user.getLogin()).get().setOnline(false);
             user.setOnline(false);
             request.getSession().invalidate();
         }

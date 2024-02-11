@@ -5,7 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class MemoryUserRepo {
-    private final List<User> users = new ArrayList<>();
+    private static final List<User> users = new ArrayList<>();
+
+    static {
+        users.add(new User("admin", "1", "Олег", UserType.ADMIN));
+        users.add(new User("client1", "1", "Настя", UserType.CLIENT));
+        users.add(new User("client2", "1", "Liza", UserType.CLIENT));
+    }
 
     public List<User> findAllUsers() {
         return users;
